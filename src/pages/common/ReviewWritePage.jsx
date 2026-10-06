@@ -1,0 +1,1 @@
+export default function ReviewWritePage() { return <div>리뷰 작성</div>; }

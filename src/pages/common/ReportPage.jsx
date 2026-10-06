@@ -1,0 +1,1 @@
+export default function ReportPage() { return <div>제보 페이지</div>; }

@@ -1,0 +1,1 @@
+export default function ReviewPage() { return <div>리뷰 관리</div>; }

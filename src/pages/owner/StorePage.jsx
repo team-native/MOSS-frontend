@@ -1,0 +1,1 @@
+export default function StorePage() { return <div>매장 관리</div>; }

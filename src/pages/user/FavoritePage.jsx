@@ -1,0 +1,1 @@
+export default function FavoritePage() { return <div>찜 목록</div>; }
