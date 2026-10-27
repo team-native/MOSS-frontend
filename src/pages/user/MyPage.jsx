@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logoImg from "../../assets/logo.png.png";
 
 // 아이콘 SVG 컴포넌트들
 function ReviewIcon({ className = "w-5 h-5" }) {
@@ -36,7 +35,6 @@ function SpotIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// 매끄럽게 수정한 깨지지 않는 하트 아이콘
 function HeartIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -198,31 +196,6 @@ const accountMenu = [
 const buttonStyle =
   "rounded-full border border-[#E2E8E4] bg-white px-4 py-2.5 text-[13px] font-bold text-[#29483B] transition hover:bg-[#EDF2EE]";
 
-function MossLogo({ footer = false }) {
-  return (
-    <a
-      href="/"
-      className={`inline-flex items-center gap-3 ${footer ? "" : "shrink-0"}`}
-    >
-      {!footer && (
-        <img
-          src={logoImg}
-          alt="MoSS 로고"
-          className="h-12 w-12 rounded-[14px] object-cover"
-        />
-      )}
-
-      <span
-        className={`whitespace-nowrap text-[28px] font-bold leading-none tracking-tight ${
-          footer ? "text-white" : "text-[#1A2920]"
-        }`}
-      >
-        MoSS
-      </span>
-    </a>
-  );
-}
-
 function renderIcon(type, className = "w-5 h-5") {
   if (type === "review") return <ReviewIcon className={className} />;
   if (type === "spot") return <SpotIcon className={className} />;
@@ -247,35 +220,7 @@ export default function MyPage() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#FAF9F5] font-sans text-[#1A2920]">
-      <header className="flex flex-wrap items-center justify-between gap-5 border-b border-[#E2E8E4] px-6 py-5 sm:px-10 lg:px-16">
-        <MossLogo />
-
-        <nav className="flex flex-wrap items-center gap-5 text-[13px] font-medium text-[#5D6B63] sm:gap-8">
-          <a href="/" className="transition hover:text-[#29483B]">
-            홈
-          </a>
-          <a href="/search" className="transition hover:text-[#29483B]">
-            카페 찾기
-          </a>
-          <a href="/favorite" className="transition hover:text-[#29483B]">
-            찜 목록
-          </a>
-          <a href="/mypage" className="font-bold text-[#29483B]">
-            마이페이지
-          </a>
-        </nav>
-
-        <button
-          className={buttonStyle}
-          onClick={() => notify("스팟 제보 화면은 준비 중이에요.")}
-        >
-          <span className="inline-flex items-center gap-1.5">
-            <SpotIcon className="w-4 h-4 text-[#29483B]" />내 스팟 제보
-          </span>
-        </button>
-      </header>
-
+    <div className="bg-[#FAF9F5] font-sans text-[#1A2920]">
       <section className="flex flex-col justify-between gap-5 px-6 pb-8 pt-10 sm:px-10 lg:flex-row lg:items-end lg:px-16">
         <div>
           <span className="text-[11px] font-bold tracking-widest text-[#4F705E]">
@@ -558,22 +503,6 @@ export default function MyPage() {
           </section>
         </div>
       </main>
-
-      <footer className="flex flex-wrap items-center justify-between gap-6 bg-[#29483B] px-6 py-8 text-white sm:px-10 lg:px-16">
-        <div>
-          <MossLogo footer={true} />
-          <p className="mt-2 text-[12px] text-[#E3ECE7]">
-            머물기 좋은 동네의 자리를 발견하는 방법
-          </p>
-        </div>
-        <nav className="flex flex-wrap gap-5 text-[12px] text-[#E3ECE7]">
-          <a href="#about">서비스 소개</a>
-          <a href="#terms">이용약관</a>
-          <a href="#privacy">개인정보처리방침</a>
-          <a href="#contact">문의하기</a>
-        </nav>
-        <span className="text-[11px] text-[#E3ECE7]">© 2026 MoSS</span>
-      </footer>
     </div>
   );
 }

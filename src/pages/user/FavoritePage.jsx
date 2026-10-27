@@ -1,65 +1,4 @@
 import { useState } from "react";
-import logoImg from "../../assets/logo.png.png";
-
-// 지도 핀 아이콘
-function SpotIcon({ className = "w-4 h-4" }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 11a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-      <path d="M17.5 8.5c0 4.5-5.5 8.5-5.5 8.5s-5.5-4-5.5-8.5a5.5 5.5 0 1111 0z" />
-      <path d="M4.5 19.5h15" />
-    </svg>
-  );
-}
-
-// 상단 네비게이션 헤더
-function MossHeader() {
-  return (
-    <header className="flex flex-wrap items-center justify-between gap-5 border-b border-[#E2E8E4] bg-[#FAF9F5] px-6 py-5 sm:px-10 lg:px-16">
-      <a href="/" className="inline-flex items-center gap-3 shrink-0">
-        <img
-          src={logoImg}
-          alt="MoSS 로고"
-          className="h-12 w-12 rounded-[14px] object-cover"
-        />
-        <span className="whitespace-nowrap text-[28px] font-bold leading-none tracking-tight text-[#1A2920]">
-          MoSS
-        </span>
-      </a>
-
-      <nav className="flex flex-wrap items-center gap-5 text-[13px] font-medium text-[#5D6B63] sm:gap-8">
-        <a href="/" className="transition hover:text-[#29483B]">
-          홈
-        </a>
-        <a href="/search" className="transition hover:text-[#29483B]">
-          카페 찾기
-        </a>
-        <a href="/favorite" className="font-bold text-[#29483B]">
-          찜 목록
-        </a>
-        <a href="/mypage" className="transition hover:text-[#29483B]">
-          마이페이지
-        </a>
-      </nav>
-
-      <button
-        onClick={() => alert("스팟 제보 화면은 준비 중이에요.")}
-        className="inline-flex items-center gap-1.5 rounded-full border border-[#E2E8E4] bg-white px-4 py-2.5 text-[13px] font-bold text-[#29483B] transition hover:bg-[#EDF2EE]"
-      >
-        <SpotIcon className="w-4 h-4 text-[#29483B]" />
-        <span>내 스팟 제보</span>
-      </button>
-    </header>
-  );
-}
 
 // 샘플 찜 데이터
 const favoritePlaces = [
@@ -113,6 +52,7 @@ const favoritePlaces = [
   },
 ];
 
+// 필터 옵션
 const filters = [
   { label: "전체", count: 8 },
   { label: "스터디카페", count: 4 },
@@ -131,11 +71,8 @@ export default function FavoritePage() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#FAF9F5] font-sans text-[#1A2920]">
-      {/* 1. 상단 네비게이션 */}
-      <MossHeader />
-
-      {/* 2. 메인 컨텐츠 영역 */}
+    <div className="bg-[#FAF9F5] font-sans text-[#1A2920]">
+      {/* 메인 컨텐츠 영역 */}
       <main className="px-6 py-10 sm:px-10 lg:px-16">
         {/* 타이틀 헤더 */}
         <div className="mb-8">
@@ -187,6 +124,7 @@ export default function FavoritePage() {
               key={place.id}
               className="overflow-hidden rounded-[22px] border border-[#E2E8E4] bg-white transition hover:-translate-y-1 hover:shadow-lg"
             >
+              {/* 이미지 썸네일 영역 */}
               <div className="relative m-2.5">
                 <div className="aspect-[1.7/1] w-full rounded-[16px] bg-[#E3ECE7]" />
                 <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-[#4F705E]">
@@ -205,6 +143,7 @@ export default function FavoritePage() {
                 </button>
               </div>
 
+              {/* 정보 영역 */}
               <div className="p-5 pt-1">
                 <span className="text-[11px] font-semibold text-[#8E9B93]">
                   {place.type}
@@ -221,7 +160,7 @@ export default function FavoritePage() {
           ))}
         </div>
 
-        {/* 3. 추천 광고 섹션 */}
+        {/* 추천 광고 섹션 ("이런 공간은 어때요?") */}
         <section className="mt-16">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -284,7 +223,7 @@ export default function FavoritePage() {
           </div>
         </section>
 
-        {/* 4. 빈 상태 안내 카드 */}
+        {/* 빈 상태 안내 카드 ("찜한 장소가 없어졌다면") */}
         <section className="mt-16">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-[16px] font-bold text-[#5D6B63]">
@@ -314,33 +253,6 @@ export default function FavoritePage() {
           </div>
         </section>
       </main>
-
-      {/* 5. 올바르게 수정된 푸터 */}
-      <footer className="flex flex-wrap items-center justify-between gap-6 bg-[#29483B] px-6 py-8 text-white sm:px-10 lg:px-16">
-        <div>
-          <span className="text-[28px] font-bold leading-none tracking-tight text-white">
-            MoSS
-          </span>
-          <p className="mt-2 text-[12px] text-[#E3ECE7]">
-            머물기 좋은 동네의 자리를 발견하는 방법
-          </p>
-        </div>
-        <nav className="flex flex-wrap gap-5 text-[12px] text-[#E3ECE7]">
-          <a href="#about" className="hover:underline">
-            서비스 소개
-          </a>
-          <a href="#terms" className="hover:underline">
-            이용약관
-          </a>
-          <a href="#privacy" className="hover:underline">
-            개인정보처리방침
-          </a>
-          <a href="#contact" className="hover:underline">
-            문의하기
-          </a>
-        </nav>
-        <span className="text-[11px] text-[#E3ECE7]">© 2026 MoSS</span>
-      </footer>
     </div>
   );
 }

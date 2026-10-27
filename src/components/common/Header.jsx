@@ -1,42 +1,83 @@
-import { useLocation, Link } from 'react-router-dom';
+import { Link, NavLink } from "react-router-dom";
+import logoImg from "../../assets/logo.png.png";
+
+function SpotIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 11a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+      <path d="M17.5 8.5c0 4.5-5.5 8.5-5.5 8.5s-5.5-4-5.5-8.5a5.5 5.5 0 1111 0z" />
+      <path d="M4.5 19.5h15" />
+    </svg>
+  );
+}
 
 export default function Header() {
-const location = useLocation();
-const isHome = location.pathname === '/';
+  const navItems = [
+    { to: "/", label: "홈" },
+    { to: "/search", label: "카페 찾기" },
+    { to: "/favorite", label: "찜 목록" },
+    { to: "/mypage", label: "마이페이지" },
+  ];
 
   return (
-    <header className="w-full bg-[#FAF9F5] px-10 sm:px-16 lg:px-24 py-5 flex items-center justify-between border-b border-[#EAEFEA] sticky top-0 z-50">
-      <div className="flex items-center gap-2.5 cursor-pointer">
-        <div className="w-9 h-9 rounded-xl bg-[#2D4A3E] flex items-center justify-center text-white shadow-sm">
-          <img src="브랜드 마크.png" alt="" />
-        </div>
-        <img src="브랜드 이름.png" alt="" />
-      </div>
+    <header className="flex flex-wrap items-center justify-between gap-5 border-b border-[#E2E8E4] bg-[#FAF9F5] px-6 py-5 sm:px-10 lg:px-16">
+      <Link to="/" className="inline-flex items-center gap-3 shrink-0">
+        <img
+          src={logoImg}
+          alt="MoSS 로고"
+          className="h-12 w-12 rounded-[14px] object-cover"
+        />
+        <span className="whitespace-nowrap text-[28px] font-bold leading-none tracking-tight text-[#1A2920]">
+          MoSS
+        </span>
+      </Link>
 
-      <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#65736B]">
-        <Link 
-          to="/" 
-          className={`flex flex-col items-center gap-1 relative ${isHome ? 'text-[#2D4A3E]' : 'hover:text-[#2D4A3E]'}`}
-        >
-          홈
-          {/* 홈 경로일 때만 점(span)이 렌더링되도록 조건부 추가 */}
-          {isHome && (
-            <span className="w-1.5 h-1.5 bg-[#2D4A3E] rounded-full absolute -bottom-2"></span>
-          )}
-        </Link>
-        <Link to="/cafes" className="hover:text-[#2D4A3E] transition-colors">카페 찾기</Link>
-        <Link to="/bookmarks" className="hover:text-[#2D4A3E] transition-colors">찜 목록</Link>
-        <Link to="/mypage" className="hover:text-[#2D4A3E] transition-colors">마이페이지</Link>
+      <nav className="flex flex-wrap items-center gap-5 text-[13px] font-medium sm:gap-8">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) =>
+              `flex flex-col items-center transition ${
+                isActive
+                  ? "font-bold text-[#29483B]"
+                  : "text-[#5D6B63] hover:text-[#29483B]"
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <span>{item.label}</span>
+                {isActive ? (
+                  <span className="text-[12px] leading-none text-[#29483B] -mt-1">
+                    •
+                  </span>
+                ) : (
+                  <span className="text-[12px] leading-none opacity-0 -mt-1">
+                    •
+                  </span>
+                )}
+              </>
+            )}
+          </NavLink>
+        ))}
       </nav>
 
-      <div className="flex items-center gap-6">
-        <button className="flex items-center gap-3 bg-[#EBF3F0] hover:bg-[#2D4A3E] hover:text-white text-[#2D4A3E] text-xs font-bold px-4 py-2.5 rounded-full transition-all shadow-sm">
-          <img src="map-pin.png" alt="" className='h-[20px]' /> 내 스팟 제보
-        </button>
-        <div className="w-13 h-13 rounded-full bg-[#E2E8E4] overflow-hidden flex items-center justify-center border border-[#D5DED9]">
-          <span className="text-sm">프로필사진</span>
-        </div>
-      </div>
+      <button
+        onClick={() => alert("스팟 제보 화면은 준비 중이에요.")}
+        className="inline-flex items-center gap-1.5 rounded-full border border-[#E2E8E4] bg-white px-4 py-2.5 text-[13px] font-bold text-[#29483B] transition hover:bg-[#EDF2EE]"
+      >
+        <SpotIcon className="w-4 h-4 text-[#29483B]" />
+        <span>내 스팟 제보</span>
+      </button>
     </header>
   );
 }
