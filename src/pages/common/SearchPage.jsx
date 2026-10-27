@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-// 돋보기 SVG 아이콘 (피그마 디자인 동일)
 function SearchIcon({ className = "w-4 h-4" }) {
   return (
     <svg
@@ -18,25 +18,6 @@ function SearchIcon({ className = "w-4 h-4" }) {
   );
 }
 
-// 지도 위 새로고침 SVG 아이콘
-function RefreshIcon({ className = "w-3.5 h-3.5" }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 4v5h5M20 20v-5h-5" />
-      <path d="M4 9a9 9 0 0114.82-3.36L20 7M4 17l1.18 1.36A9 9 0 0020 15" />
-    </svg>
-  );
-}
-
-// 지도 위 나무 SVG 아이콘
 function TreeIcon({ className = "w-3.5 h-3.5" }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 20 20">
@@ -135,7 +116,6 @@ export default function SearchPage() {
   return (
     <div className="w-full bg-[#FAF9F5] text-[#1E2521] py-10 pb-16">
       <main className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* 상단 타이틀 */}
         <div className="text-left mb-8">
           <span className="text-[11px] font-bold text-[#4F705E] tracking-widest uppercase block mb-1">
             FIND YOUR SPOT
@@ -148,7 +128,6 @@ export default function SearchPage() {
           </p>
         </div>
 
-        {/* 검색 바 */}
         <div className="relative flex items-center bg-white border border-[#E2E8E4] rounded-full shadow-sm px-5 py-3 mb-8 max-w-3xl">
           <SearchIcon className="w-5 h-5 text-[#29483B] mr-3 shrink-0" />
           <input
@@ -162,7 +141,6 @@ export default function SearchPage() {
           </button>
         </div>
 
-        {/* 필터 선택 박스 */}
         <div className="bg-white border border-[#EAEFEA] rounded-[24px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)] mb-10 text-left">
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-bold text-[#18271F]">
@@ -222,7 +200,6 @@ export default function SearchPage() {
           )}
         </div>
 
-        {/* 검색 결과 카운트 및 정렬/뷰 선택 */}
         <div className="flex items-center justify-between mb-6">
           <div className="text-left">
             <span className="text-xl font-bold text-[#18271F]">27</span>
@@ -244,16 +221,14 @@ export default function SearchPage() {
           </div>
         </div>
 
-        {/* 메인 콘텐츠 (목록 + 지도) */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* 좌측 카드 목록 */}
           <div className="w-full lg:w-[58%] grid grid-cols-1 sm:grid-cols-2 gap-5">
             {spots.map((spot) => (
-              <div
+              <Link
                 key={spot.id}
-                className="bg-white rounded-[24px] border border-[#EAEFEA] shadow-sm hover:shadow-md transition text-left overflow-hidden group"
+                to={`/cafe/${spot.id}`}
+                className="w-full block bg-white rounded-[24px] border border-[#EAEFEA] shadow-sm hover:shadow-md transition text-left overflow-hidden group"
               >
-                {/* 📷 이미지 영역 (피그마 시안 기준 완전한 빈 영역) */}
                 <div className="relative bg-[#EAEFEA] h-44 w-full">
                   {spot.badge && (
                     <span className="absolute top-3 left-3 bg-[#E5A853] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10">
@@ -269,7 +244,6 @@ export default function SearchPage() {
                   </span>
                 </div>
 
-                {/* 카드 내용 */}
                 <div className="p-5">
                   <div className="flex items-center gap-2 text-[11px] text-[#8C9C93] mb-1">
                     <span>{spot.category}</span>
@@ -299,15 +273,16 @@ export default function SearchPage() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
-          {/* 우측 지도 영역 (피그마 시안 오버레이 디자인 적용) */}
           <div className="w-full lg:w-[42%] sticky top-6">
             <div className="bg-[#EAEFF0] rounded-[28px] border border-white h-[680px] p-4 relative flex flex-col justify-between overflow-hidden shadow-sm">
-              {/* Top Banner (선택된 스팟 정보 카공/광고) */}
-              <div className="bg-white/95 backdrop-blur-sm rounded-[20px] p-3.5 shadow-md flex items-center justify-between text-left border border-[#EAA853]/40 z-10">
+              <Link
+                to="/cafe/1"
+                className="bg-white/95 backdrop-blur-sm rounded-[20px] p-3.5 shadow-md flex items-center justify-between text-left border border-[#EAA853]/40 z-10 block hover:border-[#29483B] transition"
+              >
                 <div className="flex items-center gap-3">
                   <span className="bg-[#E5A853] text-white text-[10px] font-bold px-2 py-1 rounded">
                     광고
@@ -321,9 +296,8 @@ export default function SearchPage() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
 
-              {/* 현재 지도에서 다시 검색 바 */}
               <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] bg-white/90 backdrop-blur-md rounded-full py-2.5 px-4 text-xs font-semibold text-[#29483B] shadow-md z-10 flex items-center justify-between cursor-pointer hover:bg-white transition-all border border-[#E2E8E4]">
                 <div className="flex items-center gap-2">
                   <SearchIcon className="w-3.5 h-3.5 text-[#29483B]" />
@@ -332,21 +306,17 @@ export default function SearchPage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-[#29483B]" />
               </div>
 
-              {/* 지도 핀 오버레이 샘플 */}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                {/* 녹색 핀 (중외공원) */}
                 <div className="absolute top-[28%] right-[25%] flex items-center gap-1.5 bg-[#4F705E] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
                   <TreeIcon className="w-3.5 h-3.5 text-white" />
                   <span>중외공원</span>
                 </div>
 
-                {/* 검정/다크그린 핀 (공부인 스터디카페) */}
                 <div className="absolute top-[42%] left-[28%] bg-[#243B31] text-white text-[11px] font-bold px-3.5 py-1.5 rounded-full shadow-lg">
                   공부인 스터디카페 · ₩2,000/h
                 </div>
               </div>
 
-              {/* 하단 투명 가이드 텍스트 */}
               <div className="text-center z-10">
                 <span className="text-[10px] text-[#8C9C93] bg-white/80 px-3 py-1 rounded-full border border-[#E2E8E4]">
                   [ 지도 API 위젯 영역 ]

@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-// 🔍 검색 돋보기 SVG
 function SearchIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -18,7 +18,6 @@ function SearchIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// 📍 위치 핀 SVG
 function MapPinIcon({ className = "w-4 h-4" }) {
   return (
     <svg
@@ -36,7 +35,6 @@ function MapPinIcon({ className = "w-4 h-4" }) {
   );
 }
 
-// ♥ 찜 하트 SVG
 function HeartIcon({ className = "w-5 h-5", filled = false }) {
   return (
     <svg
@@ -53,7 +51,6 @@ function HeartIcon({ className = "w-5 h-5", filled = false }) {
   );
 }
 
-// 📖 오롯이 집중 (책) SVG
 function BookIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -70,7 +67,6 @@ function BookIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// 💻 느긋한 작업 (노트북) SVG
 function LaptopIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -88,7 +84,6 @@ function LaptopIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// ☕ 조용한 대화 (커피 컵) SVG
 function CoffeeIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -106,7 +101,6 @@ function CoffeeIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// ☀️ 햇살 좋은 자리 (태양) SVG
 function SunIcon({ className = "w-5 h-5" }) {
   return (
     <svg
@@ -157,7 +151,8 @@ export default function MainPage() {
 
   const [selectedTags, setSelectedTags] = useState([]);
 
-  const toggleLike = (id) => {
+  const toggleLike = (e, id) => {
+    e.preventDefault();
     setSpots((prevSpots) =>
       prevSpots.map((spot) =>
         spot.id === id ? { ...spot, isLiked: !spot.isLiked } : spot,
@@ -191,7 +186,6 @@ export default function MainPage() {
             나에게 꼭 맞는 카페와 스터디 스팟을 찾아드려요.
           </p>
 
-          {/* 검색 바 */}
           <div className="relative flex items-center gap-4 bg-white border border-[#E2E8E4] rounded-full shadow-[0_6px_24px_rgba(0,0,0,0.04)] px-6 py-4 mb-6 w-full max-w-[600px] transition-all focus-within:border-[#2D4A3E]">
             <SearchIcon className="w-5 h-5 text-[#29483B] shrink-0" />
             <input
@@ -199,12 +193,14 @@ export default function MainPage() {
               placeholder="지역이나 카페 이름을 검색해 보세요"
               className="w-full bg-transparent text-base focus:outline-none placeholder-gray-400 text-[#1E2521]"
             />
-            <button className="bg-[#29483B] text-white w-10 h-10 rounded-full flex items-center justify-center shrink-0 hover:bg-[#233A31] transition-all shadow-md">
+            <Link
+              to="/search"
+              className="bg-[#29483B] text-white w-10 h-10 rounded-full flex items-center justify-center shrink-0 hover:bg-[#233A31] transition-all shadow-md"
+            >
               →
-            </button>
+            </Link>
           </div>
 
-          {/* 키워드 태그 */}
           <div className="flex flex-wrap gap-3">
             {["아주 조용한", "콘센트 많은", "노트북 가능한"].map((tag, idx) => {
               const isSelected = selectedTags.includes(tag);
@@ -225,7 +221,6 @@ export default function MainPage() {
           </div>
         </div>
 
-        {/* 오른쪽 지도 영역 */}
         <div className="w-full lg:w-[48%]">
           <div className="bg-[#EAEFF0] w-full h-[400px] sm:h-[500px] rounded-[36px] shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-white/85 flex items-center justify-center text-[#7A8B82] text-base font-medium">
             [ 지도 위젯 영역 ]
@@ -248,28 +243,29 @@ export default function MainPage() {
             </p>
           </div>
 
-          <button className="text-sm sm:text-base font-semibold text-[#29483B] hover:underline flex items-center gap-1.5 group shrink-0">
+          <Link
+            to="/search"
+            className="text-sm sm:text-base font-semibold text-[#29483B] hover:underline flex items-center gap-1.5 group shrink-0"
+          >
             27곳 모두 보기{" "}
             <span className="group-hover:translate-x-1.5 transition-transform">
               →
             </span>
-          </button>
+          </Link>
         </div>
 
-        {/* 카드 그리드 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {spots.map((spot) => (
-            <div
+            <Link
               key={spot.id}
-              className="bg-white rounded-[32px] border border-[#EAEFEA] shadow-[0_6px_24px_rgba(0,0,0,0.03)] overflow-hidden hover:scale-[1.02] transition-all duration-300 group text-left"
+              to={`/cafe/${spot.id}`}
+              className="w-full block bg-white rounded-[32px] border border-[#EAEFEA] shadow-[0_6px_24px_rgba(0,0,0,0.03)] overflow-hidden hover:scale-[1.02] transition-all duration-300 group text-left"
             >
               <div className="relative bg-[#EAEFEA] h-60 w-full flex items-center justify-center">
                 <button
-                  onClick={() => toggleLike(spot.id)}
+                  onClick={(e) => toggleLike(e, spot.id)}
                   aria-label={spot.isLiked ? "찜 해제" : "찜하기"}
-                  className={`absolute top-5 right-5 w-10 h-10 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-md transition-all ${
-                    spot.isLiked ? "text-[#2D4A3E]" : "text-[#65736B]"
-                  }`}
+                  className="absolute top-5 right-5 w-10 h-10 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-md transition-all text-[#65736B]"
                 >
                   <HeartIcon className="w-5 h-5" filled={spot.isLiked} />
                 </button>
@@ -302,7 +298,7 @@ export default function MainPage() {
                   ))}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -328,17 +324,20 @@ export default function MainPage() {
               <br />
               따뜻한 차 한 잔과 함께 집중해 보세요.
             </p>
-            <button className="text-sm sm:text-base font-semibold text-white hover:underline flex items-center gap-1.5 group shrink-0">
+            <Link
+              to="/search"
+              className="text-sm sm:text-base font-semibold text-white hover:underline flex items-center gap-1.5 group shrink-0"
+            >
               큐레이션 읽어보기{" "}
               <span className="group-hover:translate-x-1.5 transition-transform">
                 →
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. 목적별 찾아보기 (피그마 디자인 적용) */}
+      {/* 4. 목적별 찾아보기 */}
       <section className="w-full px-10 sm:px-16 lg:px-24 py-20 pb-32 flex flex-col items-start">
         <div className="w-full text-left mr-auto mb-12">
           <span className="text-xs font-bold text-[#4F705E] tracking-widest uppercase block mb-2">
@@ -381,12 +380,12 @@ export default function MainPage() {
           ].map((cat, idx) => {
             const IconComponent = cat.icon;
             return (
-              <div
+              <Link
                 key={idx}
-                className="bg-white p-8 rounded-[32px] border border-[#EAEFEA] shadow-[0_6px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)] hover:border-[#2D4A3E]/30 transition-all duration-300 flex flex-col justify-between h-56 text-left group"
+                to="/search"
+                className="bg-white p-8 rounded-[32px] border border-[#EAEFEA] shadow-[0_6px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)] hover:border-[#2D4A3E]/30 transition-all duration-300 flex flex-col justify-between h-56 text-left group block"
               >
                 <div>
-                  {/* 동그란 아이콘 배지 (피그마 시안 동일) */}
                   <div className="w-10 h-10 rounded-full bg-[#EDF3EF] text-[#29483B] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
                     <IconComponent className="w-5 h-5 text-[#29483B]" />
                   </div>
@@ -400,7 +399,7 @@ export default function MainPage() {
                 <span className="text-xs font-bold text-[#8C9C93] tracking-wider">
                   {cat.count}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

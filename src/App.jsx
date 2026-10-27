@@ -8,6 +8,7 @@ import MainPage from "./pages/user/MainPage";
 import SearchPage from "./pages/common/SearchPage";
 import MyPage from "./pages/user/MyPage";
 import FavoritePage from "./pages/user/FavoritePage";
+import DetailPage from "./pages/common/DetailPage";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +23,16 @@ const router = createBrowserRouter([
         element: <SearchPage />,
       },
       {
-        path: "/cafes", // '카페 찾기' 경로 지원
+        path: "/cafes",
         element: <SearchPage />,
+      },
+      {
+        path: "/cafe/:id",
+        element: <DetailPage />,
+      },
+      {
+        path: "/detail",
+        element: <DetailPage />,
       },
       {
         path: "/mypage",
@@ -34,19 +43,17 @@ const router = createBrowserRouter([
         element: <FavoritePage />,
       },
       {
-        path: "/bookmarks", // 헤더 링크 대응
+        path: "/bookmarks",
         element: <FavoritePage />,
       },
       {
-        path: "*", // 없는 경로 접근 시 메인으로 이동
+        path: "*",
         element: <Navigate to="/" replace />,
       },
     ],
   },
 ]);
 
-function App() {
+export default function App() {
   return <RouterProvider router={router} />;
 }
-
-export default App;
