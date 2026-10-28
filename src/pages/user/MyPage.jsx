@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // 아이콘 SVG 컴포넌트들
 function ReviewIcon({ className = "w-5 h-5" }) {
@@ -204,6 +205,7 @@ function renderIcon(type, className = "w-5 h-5") {
 }
 
 export default function MyPage() {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [saved, setSaved] = useState(places.map((place) => place.id));
 
@@ -235,10 +237,7 @@ export default function MyPage() {
         </div>
 
         <div className="flex flex-wrap gap-2.5">
-          <button
-            className={buttonStyle}
-            onClick={() => notify("스팟 제보 화면은 준비 중이에요.")}
-          >
+          <button className={buttonStyle} onClick={() => navigate("/reports")}>
             <span className="inline-flex items-center gap-1.5">
               <SpotIcon className="w-4 h-4 text-[#29483B]" />새 스팟 제보
             </span>
@@ -296,7 +295,11 @@ export default function MyPage() {
             {menu.map((item) => (
               <button
                 key={item.title}
-                onClick={() => notify(`${item.title} 페이지는 준비 중이에요.`)}
+                onClick={() => {
+                  if (item.type === "spot") navigate("/reports");
+                  else if (item.type === "heart") navigate("/favorite");
+                  else notify(`${item.title} 페이지는 준비 중이에요.`);
+                }}
                 className="flex w-full items-center gap-3 rounded-xl px-2.5 py-3 text-left text-[13px] text-[#5D6B63] transition hover:bg-[#EDF2EE]"
               >
                 <span className="text-[#5D6B63]">
@@ -344,7 +347,15 @@ export default function MyPage() {
               {stats.map((item) => (
                 <article
                   key={item.title}
-                  className="flex min-w-0 items-center gap-4 rounded-[22px] border border-[#E2E8E4] bg-white p-5"
+                  onClick={() => {
+                    if (item.type === "spot") navigate("/reports");
+                    else if (item.type === "heart") navigate("/favorite");
+                  }}
+                  className={`flex min-w-0 items-center gap-4 rounded-[22px] border border-[#E2E8E4] bg-white p-5 transition ${
+                    item.type !== "review"
+                      ? "cursor-pointer hover:border-[#29483B]"
+                      : ""
+                  }`}
                 >
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#EDF2EE] text-[#5D6B63]">
                     {renderIcon(item.type, "w-6 h-6")}
@@ -378,7 +389,7 @@ export default function MyPage() {
                 </p>
               </div>
               <button
-                onClick={() => notify("찜 목록 전체 보기는 준비 중이에요.")}
+                onClick={() => navigate("/favorite")}
                 className="text-[13px] font-bold text-[#29483B] hover:underline"
               >
                 찜 목록 전체 보기 →
@@ -462,16 +473,20 @@ export default function MyPage() {
                 <h2 className="text-[19px] font-extrabold text-[#1A2920]">
                   내 스팟 제보
                 </h2>
-                <span className="rounded-full bg-white px-3 py-1.5 text-[11px] font-bold text-[#29483B]">
-                  4곳 반영
-                </span>
+                <button
+                  onClick={() => navigate("/reports")}
+                  className="rounded-full bg-white px-3 py-1.5 text-[11px] font-bold text-[#29483B] hover:bg-[#EDF2EE]"
+                >
+                  4곳 반영 ›
+                </button>
               </div>
 
               <div className="py-2">
                 {reports.map((report) => (
                   <div
                     key={report.name}
-                    className="flex min-h-[52px] items-center gap-2.5"
+                    onClick={() => navigate("/reports")}
+                    className="flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-lg transition hover:bg-white/40 px-1"
                   >
                     <span
                       className={`h-2 w-2 shrink-0 rounded-full ${

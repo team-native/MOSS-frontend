@@ -9,6 +9,7 @@ import SearchPage from "./pages/common/SearchPage";
 import MyPage from "./pages/user/MyPage";
 import FavoritePage from "./pages/user/FavoritePage";
 import DetailPage from "./pages/common/DetailPage";
+import ReportPage from "./pages/common/ReportPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
       {
         path: "/bookmarks",
         element: <FavoritePage />,
+      },
+      {
+        path: "/reports",
+        element: <ReportPage />,
+      },
+      {
+        path: "/my-report",
+        element: <ReportPage />,
       },
       {
         path: "*",

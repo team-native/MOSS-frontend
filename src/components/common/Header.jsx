@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logoImg from "../../assets/logo.png.png";
 
 function SpotIcon({ className = "w-4 h-4" }) {
@@ -20,6 +20,8 @@ function SpotIcon({ className = "w-4 h-4" }) {
 }
 
 export default function Header() {
+  const navigate = useNavigate();
+
   const navItems = [
     { to: "/", label: "홈" },
     { to: "/search", label: "카페 찾기" },
@@ -72,7 +74,7 @@ export default function Header() {
       </nav>
 
       <button
-        onClick={() => alert("스팟 제보 화면은 준비 중이에요.")}
+        onClick={() => navigate("/reports")}
         className="inline-flex items-center gap-1.5 rounded-full border border-[#E2E8E4] bg-white px-4 py-2.5 text-[13px] font-bold text-[#29483B] transition hover:bg-[#EDF2EE]"
       >
         <SpotIcon className="w-4 h-4 text-[#29483B]" />
