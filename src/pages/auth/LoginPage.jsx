@@ -1,15 +1,15 @@
 import { useState } from "react";
 import "./LoginPage.css";
-// import Header from "../../components/Header";
-// import Footer from "../../components/Footer";
+
+import Header from "./LoginHeader";
+import Footer from "./LoginFooter";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
-      <header></header>
-
+      <Header />
       <main>
         <section className="loginImage">
           {/* 왼쪽 위 로고 */}
@@ -114,14 +114,16 @@ export default function LoginPage() {
             <div className="findAccount">
               <button
                 type="button"
-                onClick={() => (window.location.href = "/find-id")}
+                onClick={() => (window.location.href = "/find-account")}
               >
                 아이디 찾기
               </button>
+
               <span className="findDivider"></span>
+
               <button
                 type="button"
-                onClick={() => (window.location.href = "/find-password")}
+                onClick={() => (window.location.href = "/find-account")}
               >
                 비밀번호 찾기
               </button>
@@ -154,7 +156,7 @@ export default function LoginPage() {
         </section>
       </main>
 
-      <footer></footer>
+      <Footer />
     </>
   );
 }
