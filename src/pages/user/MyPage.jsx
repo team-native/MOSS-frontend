@@ -296,7 +296,8 @@ export default function MyPage() {
               <button
                 key={item.title}
                 onClick={() => {
-                  if (item.type === "spot") navigate("/reports");
+                  if (item.type === "review") navigate("/my-reviews");
+                  else if (item.type === "spot") navigate("/reports");
                   else if (item.type === "heart") navigate("/favorite");
                   else notify(`${item.title} 페이지는 준비 중이에요.`);
                 }}
@@ -348,14 +349,11 @@ export default function MyPage() {
                 <article
                   key={item.title}
                   onClick={() => {
-                    if (item.type === "spot") navigate("/reports");
+                    if (item.type === "review") navigate("/my-reviews");
+                    else if (item.type === "spot") navigate("/reports");
                     else if (item.type === "heart") navigate("/favorite");
                   }}
-                  className={`flex min-w-0 items-center gap-4 rounded-[22px] border border-[#E2E8E4] bg-white p-5 transition ${
-                    item.type !== "review"
-                      ? "cursor-pointer hover:border-[#29483B]"
-                      : ""
-                  }`}
+                  className="flex min-w-0 cursor-pointer items-center gap-4 rounded-[22px] border border-[#E2E8E4] bg-white p-5 transition hover:border-[#29483B]"
                 >
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#EDF2EE] text-[#5D6B63]">
                     {renderIcon(item.type, "w-6 h-6")}
@@ -440,7 +438,7 @@ export default function MyPage() {
               <div className="flex items-center justify-between gap-3 border-b border-[#E2E8E4] pb-4">
                 <h2 className="text-[19px] font-extrabold">최근 작성한 리뷰</h2>
                 <button
-                  onClick={() => notify("리뷰 전체 보기는 준비 중이에요.")}
+                  onClick={() => navigate("/my-reviews")}
                   className="text-[12px] font-bold text-[#4F705E]"
                 >
                   전체 보기
@@ -486,7 +484,7 @@ export default function MyPage() {
                   <div
                     key={report.name}
                     onClick={() => navigate("/reports")}
-                    className="flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-lg transition hover:bg-white/40 px-1"
+                    className="flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-lg px-1 transition hover:bg-white/40"
                   >
                     <span
                       className={`h-2 w-2 shrink-0 rounded-full ${
