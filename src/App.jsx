@@ -27,7 +27,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         {/* 인증 페이지: 자체 헤더와 푸터 사용 */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/signup/user" element={<UserSignupPage />} />
         <Route path="/signup/owner" element={<OwnerSignupPage1 />} />
@@ -37,7 +38,7 @@ export default function App() {
 
         {/* 일반 페이지: 공통 Layout 사용 */}
         <Route element={<Layout />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/favorites" element={<FavoritePage />} />
 

@@ -180,7 +180,7 @@ export default function LoginPage() {
           <button
             type="button"
             className="h-[54px] min-h-[54px] w-full shrink-0 rounded-[14px] border-0 bg-[#29483b] px-6 text-white hover:opacity-80"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/main")}
           >
             로그인 →
           </button>
