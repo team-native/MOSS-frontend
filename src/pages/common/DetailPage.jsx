@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// --- SVG 아이콘 ---
 function StarIcon({ className = "w-4 h-4 text-amber-400" }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 20 20">
@@ -16,8 +17,6 @@ function MapPinIcon({ className = "w-4 h-4" }) {
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
     >
       <path d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z" />
       <circle cx="12" cy="11" r="2" />
@@ -33,17 +32,227 @@ function HeartIcon({ className = "w-4 h-4", filled = false }) {
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
     >
       <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
     </svg>
   );
 }
 
+function CloseIcon({ className = "w-6 h-6" }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15 9l-6 6M9 9l6 6" />
+    </svg>
+  );
+}
+
+function ModalStarIcon({
+  className = "w-7 h-7",
+  fill = "none",
+  stroke = "currentColor",
+}) {
+  return (
+    <svg
+      className={className}
+      fill={fill}
+      viewBox="0 0 24 24"
+      stroke={stroke}
+      strokeWidth="1.8"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className = "w-5 h-5" }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2.5"
+    >
+      <path d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
+function CameraIcon({ className = "w-6 h-6" }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+      <circle cx="12" cy="13" r="4" />
+    </svg>
+  );
+}
+
+// --- 모달 컴포넌트 ---
+function InternalReviewWriteModal({ placeName, onClose }) {
+  const [rating, setRating] = useState(4);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [noiseLevel, setNoiseLevel] = useState("quiet");
+  const [reviewText, setReviewText] = useState(
+    "매장이 전반적으로 조용해서 백색소음도 만족스럽습니다!",
+  );
+
+  const noiseOptions = [
+    { id: "quiet", label: "매우 조용해요 (집중 전용 스터디존 수준)" },
+    { id: "moderate", label: "적당히 보통이에요 (백색소음 / 무소음 타이핑)" },
+    {
+      id: "noisy",
+      label: "조금 소란스러워요 (카페 음악 / 일상적인 대화 가능)",
+    },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 font-sans text-[#1A2920]">
+      <div className="w-full max-w-[480px] bg-white rounded-[28px] shadow-xl border border-[#E2E8E4] overflow-hidden flex flex-col my-auto max-h-[90vh]">
+        <header className="relative flex items-center justify-center px-6 py-5 border-b border-[#F0F4F1]">
+          <button
+            onClick={onClose}
+            className="absolute left-6 text-[#5D6B63] hover:text-[#1A2920]"
+          >
+            <CloseIcon className="w-6 h-6" />
+          </button>
+          <h1 className="text-[18px] font-bold tracking-tight">리뷰 쓰기</h1>
+        </header>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            alert("리뷰가 등록되었습니다!");
+            onClose();
+          }}
+          className="p-6 space-y-7 overflow-y-auto"
+        >
+          <div>
+            <h2 className="text-[22px] font-black tracking-tight">
+              {placeName}
+            </h2>
+            <p className="mt-1 text-[13px] text-[#5D6B63]">
+              공부하는 사람들을 위해 조용하고 진솔한 경험을 남겨주세요
+            </p>
+          </div>
+
+          <div className="text-center pt-2 pb-1">
+            <p className="text-[15px] font-bold text-[#1A2920] mb-3">
+              공부 환경은 어떠셨나요?
+            </p>
+            <div className="flex justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => {
+                const isFilled = star <= (hoverRating || rating);
+                return (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className="p-1"
+                  >
+                    <ModalStarIcon
+                      className={`w-8 h-8 ${isFilled ? "text-[#EAA850]" : "text-[#DCDFD9]"}`}
+                      fill={isFilled ? "#EAA850" : "none"}
+                      stroke={isFilled ? "#EAA850" : "#DCDFD9"}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-3 text-[14px] font-bold text-[#EAA850]">
+              {hoverRating || rating}점 / 5점
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-[15px] font-bold text-[#1A2920] mb-3">
+              소음 정도가 어느 정도였나요?
+            </h3>
+            <div className="space-y-2.5">
+              {noiseOptions.map((option) => (
+                <label
+                  key={option.id}
+                  onClick={() => setNoiseLevel(option.id)}
+                  className={`flex items-center justify-between p-4 rounded-[16px] border cursor-pointer ${noiseLevel === option.id ? "bg-[#EEF4F0] border-[#29483B] text-[#29483B]" : "bg-[#FAF9F5] border-transparent text-[#5D6B63]"}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`w-3 h-3 rounded-full ${noiseLevel === option.id ? "bg-[#29483B]" : "bg-[#C4C9C5]"}`}
+                    />
+                    <span className="text-[13px] font-semibold">
+                      {option.label}
+                    </span>
+                  </div>
+                  {noiseLevel === option.id && (
+                    <CheckIcon className="w-5 h-5 text-[#29483B]" />
+                  )}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-[15px] font-bold text-[#1A2920] mb-3">
+              사진 첨부 (선택)
+            </h3>
+            <label className="flex items-center gap-4 p-4 rounded-[18px] border-2 border-dashed border-[#DCDFD9] bg-[#FAF9F5] cursor-pointer">
+              <div className="w-12 h-12 rounded-[14px] bg-[#E8EDE9] flex items-center justify-center text-[#29483B]">
+                <CameraIcon className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-[14px] font-bold text-[#1A2920]">
+                  사진으로 한 눈에 분위기를 보여주세요
+                </p>
+                <p className="text-[12px] text-[#8E9B93] mt-0.5">
+                  내부 분위기, 좌석 사진 등 (최대 3장)
+                </p>
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <h3 className="text-[15px] font-bold text-[#1A2920] mb-3">
+              상세 후기 작성
+            </h3>
+            <textarea
+              rows={3}
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              className="w-full p-4 rounded-[18px] border border-[#E2E8E4] bg-[#FAF9F5] text-[14px] focus:outline-none focus:bg-white resize-none"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-4 rounded-[18px] bg-[#3D3533] hover:bg-[#2A2423] text-white font-bold text-[16px]"
+          >
+            리뷰 등록하기
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// --- 메인 상세 페이지 ---
 export default function DetailPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(1204);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const handleLikeToggle = () => {
     setIsLiked((prev) => !prev);
@@ -120,7 +329,7 @@ export default function DetailPage() {
               <span className="bg-[#EBF3F0] text-[#4F705E] text-[11px] font-bold px-2.5 py-0.5 rounded">
                 스터디카페
               </span>
-              <span className="text-xs text-[#8C9C93]">• 영업 중 · 24시간</span>
+              <span className="text-xs text-[#8C9C93]">영업 중 · 24시간</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-[#18271F] tracking-tight mb-2">
               에이밍 스터디카페
@@ -143,11 +352,7 @@ export default function DetailPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleLikeToggle}
-              className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition shadow-sm border ${
-                isLiked
-                  ? "bg-[#29483B] text-white border-[#29483B]"
-                  : "bg-white text-[#29483B] border-[#E2E8E4] hover:bg-[#EDF2EE]"
-              }`}
+              className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition shadow-sm border ${isLiked ? "bg-[#29483B] text-white border-[#29483B]" : "bg-white text-[#29483B] border-[#E2E8E4] hover:bg-[#EDF2EE]"}`}
             >
               <HeartIcon className="w-4 h-4" filled={isLiked} />
               <span>찜 {likeCount.toLocaleString()}</span>
@@ -167,14 +372,11 @@ export default function DetailPage() {
             <p className="text-xs text-[#8C9C93] mb-5">
               방문 전의 운영 정책과 시설 정보를 확인해 주세요.
             </p>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {infoList.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`bg-[#F4F6F4] p-4 rounded-[16px] border border-[#EAEFEA] ${
-                    item.label === "학교와의 거리" ? "sm:col-span-2" : ""
-                  }`}
+                  className={`bg-[#F4F6F4] p-4 rounded-[16px] border border-[#EAEFEA] ${item.label === "학교와의 거리" ? "sm:col-span-2" : ""}`}
                 >
                   <span className="block text-[11px] font-medium text-[#8C9C93] mb-1">
                     {item.label}
@@ -245,7 +447,6 @@ export default function DetailPage() {
               31일까지
             </p>
           </div>
-
           <button
             onClick={() => alert("쿠폰 받기 완료!")}
             className="bg-white text-[#29483B] border border-[#E2E8E4] px-5 py-2.5 rounded-full text-xs font-bold hover:bg-[#FAF9F5] transition shrink-0"
@@ -264,14 +465,12 @@ export default function DetailPage() {
                 실제로 머문 사람들의 경험을 확인해 보세요.
               </p>
             </div>
-
             <div className="flex items-center gap-2">
               <button className="text-xs text-[#65736B] bg-white border border-[#E2E8E4] px-3 py-1.5 rounded-lg">
                 최신순 ∨
               </button>
-
               <button
-                onClick={() => alert("리뷰 작성 화면 준비 중입니다.")}
+                onClick={() => setIsReviewModalOpen(true)}
                 className="bg-[#29483B] text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-[#1A2920] transition"
               >
                 리뷰 작성 ›
@@ -290,7 +489,6 @@ export default function DetailPage() {
                 </div>
                 <p className="text-xs text-[#D7E2DB]">127개의 솔직한 평가</p>
               </div>
-
               <div className="pt-4 border-t border-white/20 text-xs text-[#E3ECE7]">
                 재방문 의향 94% · 조용함 4.9
               </div>
@@ -315,11 +513,9 @@ export default function DetailPage() {
                       {rev.date}
                     </span>
                   </div>
-
                   <p className="text-xs text-[#5D6B63] leading-relaxed mb-3">
                     {rev.content}
                   </p>
-
                   {rev.reply && (
                     <div className="bg-[#FAF9F5] border border-[#E2E8E4] p-3 rounded-[14px] text-[11px] text-[#65736B]">
                       {rev.reply}
@@ -331,6 +527,14 @@ export default function DetailPage() {
           </div>
         </section>
       </main>
+
+      {/* 모달 팝업 */}
+      {isReviewModalOpen && (
+        <InternalReviewWriteModal
+          placeName="에이밍 스터디카페"
+          onClose={() => setIsReviewModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
