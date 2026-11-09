@@ -1,10 +1,10 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/common/Layout";
 
 // 로그인 / 회원가입
 import LoginPage from "../pages/auth/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
+import UserSignupPage from "../pages/auth/UserSignupPage";
 
 // 업주 페이지
 import ReviewPage from "../pages/owner/ReviewPage";
@@ -23,8 +23,7 @@ import SearchPage from "../pages/common/SearchPage";
 import ReportPage from "../pages/common/ReportPage";
 
 export const router = createBrowserRouter([
-  // 1. 로그인 / 회원가입
-  // Layout 바깥에 배치하므로 헤더와 푸터가 표시되지 않음
+  // 로그인 / 회원가입
   {
     path: "/login",
     element: <LoginPage />,
@@ -33,9 +32,12 @@ export const router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage />,
   },
+  {
+    path: "/signup/user",
+    element: <UserSignupPage />,
+  },
 
-  // 2. 나머지 페이지
-  // Layout 안에 배치하므로 헤더와 푸터가 표시됨
+  // 나머지 페이지
   {
     element: <Layout />,
     children: [
