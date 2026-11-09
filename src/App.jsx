@@ -22,6 +22,7 @@ import FavoritePage from "./pages/user/FavoritePage";
 import MyReviewsPage from "./pages/user/MyReviewsPage";
 
 // 업주 페이지
+import DashboardPage from "./pages/owner/DashboardPage";
 import ReviewPage from "./pages/owner/ReviewPage";
 import EventPage from "./pages/owner/EventPage";
 import StorePage from "./pages/owner/StorePage";
@@ -126,6 +127,12 @@ const router = createBrowserRouter([
       {
         path: "/review/write",
         element: <ReviewWritePage />,
+      },
+
+      // 업주 페이지
+      {
+        path: "/owner/dashboard",
+        element: <DashboardPage />,
       },
       {
         path: "/owner/review",
