@@ -25,6 +25,10 @@ import ReportPage from "../pages/common/ReportPage";
 export const router = createBrowserRouter([
   // 로그인 / 회원가입
   {
+    path: "/",
+    element: <LoginPage />,
+  },
+  {
     path: "/login",
     element: <LoginPage />,
   },
@@ -43,7 +47,7 @@ export const router = createBrowserRouter([
     children: [
       // 사용자 페이지
       {
-        path: "/",
+        path: "/main",
         element: <MainPage />,
       },
       {
